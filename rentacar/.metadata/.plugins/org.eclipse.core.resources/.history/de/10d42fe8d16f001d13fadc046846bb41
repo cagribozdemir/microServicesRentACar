@@ -1,0 +1,16 @@
+package com.kodlamaio.inventoryServer.dataAccess;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.kodlamaio.inventoryServer.entities.Brand;
+import com.kodlamaio.inventoryServer.entities.Car;
+import com.kodlamaio.inventoryServer.entities.Model;
+
+public interface BrandRepository extends JpaRepository<Brand, String> {
+
+}
+
+
+public interface CarRepository  {
+
+}

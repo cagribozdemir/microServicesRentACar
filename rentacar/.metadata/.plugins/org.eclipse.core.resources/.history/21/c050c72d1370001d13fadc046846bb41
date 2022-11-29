@@ -1,0 +1,74 @@
+package com.kodlamaio.inventoryServer.business.concretes;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.kodlamaio.common.utilities.mapping.ModelMapperService;
+import com.kodlamaio.inventoryServer.business.abstracts.CarService;
+import com.kodlamaio.inventoryServer.business.requests.create.CreateCarRequest;
+import com.kodlamaio.inventoryServer.business.requests.update.UpdateCarRequest;
+import com.kodlamaio.inventoryServer.business.responses.create.CreateCarResponse;
+import com.kodlamaio.inventoryServer.business.responses.get.GetAllCarsResponse;
+import com.kodlamaio.inventoryServer.business.responses.get.GetCarResponse;
+import com.kodlamaio.inventoryServer.business.responses.update.UpdateCarResponse;
+import com.kodlamaio.inventoryServer.dataAccess.CarRepository;
+import com.kodlamaio.inventoryServer.entities.Car;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
+public class CarManager implements CarService {
+	private CarRepository carRepository;
+	private ModelMapperService modelMapperService;
+	
+	@Override
+	public List<GetAllCarsResponse> getAll() {
+		List<Car> cars = this.carRepository.findAll();
+
+		List<GetAllCarsResponse> response = cars.stream()
+				.map(car -> this.modelMapperService.forResponse().map(car, GetAllCarsResponse.class))
+				.collect(Collectors.toList());
+
+		return response;
+	}
+
+	@Override
+	public CreateCarResponse add(CreateCarRequest createCarRequest) {
+		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
+		car.setId(UUID.randomUUID().toString());
+		//car.getModel().getBrand().getName();
+		this.carRepository.save(car);
+		
+		CreateCarResponse createCarResponse = this.modelMapperService.forResponse().map(car, CreateCarResponse.class);
+		return createCarResponse;
+	}
+
+	@Override
+	public void delete(String id) {
+		carRepository.deleteById(id);
+		
+	}
+
+	@Override
+	public UpdateCarResponse update(UpdateCarRequest updateCarRequest) {
+		Car car = this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
+
+		this.carRepository.save(car);
+
+		UpdateCarResponse updateCarResponse = this.modelMapperService.forResponse().map(car,
+				UpdateCarResponse.class);
+		return updateCarResponse;
+	}
+
+	@Override
+	public GetCarResponse getById(String id) {
+		Car car = carRepository.findById(id).get();
+		GetCarResponse getCarResponse = this.modelMapperService.forResponse().map(car, GetCarResponse.class);
+		return getCarResponse;
+	}
+
+}

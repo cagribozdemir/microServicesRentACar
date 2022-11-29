@@ -1,0 +1,13 @@
+package com.kodlamaio.inventoryServer.business.concretes;
+
+import org.springframework.stereotype.Service;
+
+import com.kodlamaio.inventoryServer.business.abstracts.CarService;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
+public class CarManager implements CarService {
+
+}

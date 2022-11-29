@@ -1,0 +1,5 @@
+package com.kodlamaio.discoveryServer.entities;
+
+public class Model {
+
+}

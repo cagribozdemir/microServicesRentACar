@@ -1,0 +1,5 @@
+package com.kodlamaio.inventoryServer.core.utilities.mapping;
+
+public class ModelMapperManager {
+
+}

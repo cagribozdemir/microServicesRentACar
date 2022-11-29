@@ -1,0 +1,5 @@
+package com.kodlamaio.inventoryServer.business.concretes;
+
+public class CarManager {
+
+}

@@ -1,0 +1,32 @@
+package com.kodlamaio.inventoryServer.business.concretes;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.kodlamaio.inventoryServer.business.abstracts.ModelService;
+import com.kodlamaio.inventoryServer.business.requests.create.CreateModelRequest;
+import com.kodlamaio.inventoryServer.business.responses.create.CreateModelResponse;
+import com.kodlamaio.inventoryServer.business.responses.get.GetAllModelsResponse;
+import com.kodlamaio.inventoryServer.dataAccess.ModelRepository;
+
+import lombok.AllArgsConstructor;
+
+@Service
+@AllArgsConstructor
+public class ModelManager implements ModelService {
+	private ModelRepository modelRepository;
+	
+	@Override
+	public List<GetAllModelsResponse> getAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CreateModelResponse add(CreateModelRequest createModelRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
