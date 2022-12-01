@@ -29,7 +29,7 @@ import lombok.AllArgsConstructor;
 public class CarsController {
 	private CarService carService;
 
-	@GetMapping("/getall")
+	@GetMapping
 	public List<GetAllCarsResponse> getAll() {
 		return carService.getAll();
 	}
@@ -39,7 +39,7 @@ public class CarsController {
 		return carService.getById(id);
 	}
 
-	@PostMapping("/add")
+	@PostMapping
 	public CreateCarResponse add(@Valid @RequestBody CreateCarRequest createCarRequest) {
 		return carService.add(createCarRequest);
 	}
@@ -49,7 +49,7 @@ public class CarsController {
 		carService.delete(id);
 	}
 
-	@PutMapping()
+	@PutMapping
 	public UpdateCarResponse update(@Valid @RequestBody UpdateCarRequest updateCarRequest) {
 		return carService.update(updateCarRequest);
 	}

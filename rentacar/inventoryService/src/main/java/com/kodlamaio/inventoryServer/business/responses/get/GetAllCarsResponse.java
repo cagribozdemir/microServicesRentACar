@@ -12,6 +12,7 @@ public class GetAllCarsResponse {
 	private double dailyPrice;
 	private int modelYear;
 	private String plate;
+	private String state;
 	private String brandName;
 	private String modelName;
 }

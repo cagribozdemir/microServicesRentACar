@@ -45,6 +45,7 @@ public class CarManager implements CarService {
 		checkIfCarExistsByPlate(createCarRequest.getPlate());
 		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
 		car.setId(UUID.randomUUID().toString());
+		car.setState(1);
 		this.carRepository.save(car);
 		
 		CreateCarResponse createCarResponse = this.modelMapperService.forResponse().map(car, CreateCarResponse.class);
@@ -64,6 +65,7 @@ public class CarManager implements CarService {
 		checkIfCarExistsById(updateCarRequest.getId());
 		checkIfCarExistsByPlate(updateCarRequest.getPlate());
 		Car car = this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
+		car.setState(1);
 
 		this.carRepository.save(car);
 
@@ -78,6 +80,14 @@ public class CarManager implements CarService {
 		Car car = carRepository.findById(id).get();
 		GetCarResponse getCarResponse = this.modelMapperService.forResponse().map(car, GetCarResponse.class);
 		return getCarResponse;
+	}
+	
+	@Override
+	public void updateCarState(String carId, int state) {
+		Car car = carRepository.findById(carId).get();
+		System.out.println(car.getDailyPrice());
+		car.setState(state);
+		carRepository.save(car);
 	}
 	
 	private void checkIfCarExistsById(String id) {
@@ -100,5 +110,6 @@ public class CarManager implements CarService {
 			throw new BusinessException("MODEL.NO.EXİSTS");
 		}
 	}
+
 
 }

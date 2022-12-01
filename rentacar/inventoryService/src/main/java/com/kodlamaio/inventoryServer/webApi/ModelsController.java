@@ -29,7 +29,7 @@ import lombok.AllArgsConstructor;
 public class ModelsController {
 	private ModelService modelService;
 
-	@GetMapping("/getall")
+	@GetMapping
 	public List<GetAllModelsResponse> getAll() {
 		return modelService.getAll();
 	}
@@ -39,7 +39,7 @@ public class ModelsController {
 		return modelService.getById(id);
 	}
 
-	@PostMapping("/add")
+	@PostMapping
 	public CreateModelResponse add(@Valid @RequestBody CreateModelRequest createModelRequest) {
 		return modelService.add(createModelRequest);
 	}
@@ -49,7 +49,7 @@ public class ModelsController {
 		modelService.delete(id);
 	}
 
-	@PutMapping()
+	@PutMapping
 	public UpdateModelResponse update(@Valid @RequestBody UpdateModelRequest updateModelRequest) {
 		return modelService.update(updateModelRequest);
 	}

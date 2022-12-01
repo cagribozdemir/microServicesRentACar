@@ -29,7 +29,7 @@ import lombok.AllArgsConstructor;
 public class BrandsController {
 	private BrandService brandService;
 
-	@GetMapping("/getall")
+	@GetMapping
 	public List<GetAllBrandsResponse> getAll() {
 		return brandService.getAll();
 	}
@@ -39,7 +39,7 @@ public class BrandsController {
 		return brandService.getById(id);
 	}
 
-	@PostMapping("/add")
+	@PostMapping
 	public CreateBrandResponse add(@Valid @RequestBody CreateBrandRequest createBrandRequest) {
 		return brandService.add(createBrandRequest);
 	}
@@ -49,7 +49,7 @@ public class BrandsController {
 		brandService.delete(id);
 	}
 
-	@PutMapping()
+	@PutMapping
 	public UpdateBrandResponse update(@Valid @RequestBody UpdateBrandRequest updateBrandRequest) {
 		return brandService.update(updateBrandRequest);
 	}
