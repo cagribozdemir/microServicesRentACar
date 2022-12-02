@@ -53,4 +53,10 @@ public class CarsController {
 	public UpdateCarResponse update(@Valid @RequestBody UpdateCarRequest updateCarRequest) {
 		return carService.update(updateCarRequest);
 	}
+	
+	@GetMapping("/checkcaravailable/{id}")
+	public void checkIfCarAvailable(@PathVariable String id) {
+		carService.checkIfCarAvailable(id);
+	}
+	
 }

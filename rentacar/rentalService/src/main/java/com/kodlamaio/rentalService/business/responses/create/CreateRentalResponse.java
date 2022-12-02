@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateRentalResponse {
+	private String id;
 	private String carId;
 	private LocalDateTime dateStarted;
 	private int rentedForDays;

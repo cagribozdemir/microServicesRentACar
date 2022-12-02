@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.kodlamaio.common.events.RentalCreatedEvent;
 import com.kodlamaio.common.events.RentalUpdatedEvent;
+import com.kodlamaio.common.utilities.exceptions.BusinessException;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaio.rentalService.business.abstracts.RentalService;
 import com.kodlamaio.rentalService.business.requests.create.CreateRentalRequest;
@@ -16,6 +17,7 @@ import com.kodlamaio.rentalService.business.responses.update.UpdateRentalRespons
 import com.kodlamaio.rentalService.dataAccess.RentalRepository;
 import com.kodlamaio.rentalService.entities.Rental;
 import com.kodlamaio.rentalService.kafka.RentalProducer;
+import com.kodlamaio.rentalService.webApi.controller.CarApi;
 
 import lombok.AllArgsConstructor;
 
@@ -25,9 +27,11 @@ public class RentalManager implements RentalService {
 	private RentalRepository rentalRepository;
 	private ModelMapperService modelMapperService;
 	private RentalProducer rentalProducer;
+	private CarApi carApi;
 
 	@Override
 	public CreateRentalResponse add(CreateRentalRequest createRentalRequest) {
+		carApi.checkIfCarAvailable(createRentalRequest.getCarId());
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		rental.setId(UUID.randomUUID().toString());
 		rental.setDateStarted(LocalDateTime.now());
@@ -49,28 +53,38 @@ public class RentalManager implements RentalService {
 
 	@Override
 	public UpdateRentalResponse update(UpdateRentalRequest updateRentalRequest) {
-		Rental rental = this.rentalRepository.findByCarId(updateRentalRequest.getOldCarId());
-		rental.setCarId(updateRentalRequest.getNewCarId());
+		checkIfRentalById(updateRentalRequest.getId());
+		carApi.checkIfCarAvailable(updateRentalRequest.getCarId());
+		RentalUpdatedEvent rentalUpdatedEvent = new RentalUpdatedEvent();
+		
+		Rental rental = this.rentalRepository.findById(updateRentalRequest.getId()).get();
+		rentalUpdatedEvent.setOldCarId(rental.getCarId());
+		
+		//this.modelMapperService.forRequest().map(updateRentalRequest, Rental.class);
+		rental.setCarId(updateRentalRequest.getCarId());
 		rental.setDailyPrice(updateRentalRequest.getDailyPrice());
-		rental.setDateStarted(LocalDateTime.now());
 		rental.setRentedForDays(updateRentalRequest.getRentedForDays());
+		rental.setDateStarted(LocalDateTime.now());
 		double totalPrice = updateRentalRequest.getDailyPrice() * updateRentalRequest.getRentedForDays();
 		rental.setTotalPrice(totalPrice);
 
 		Rental rentalUpdated = this.rentalRepository.save(rental);
 		
-		
-		RentalUpdatedEvent rentalUpdatedEvent = new RentalUpdatedEvent();
-		rentalUpdatedEvent.setOldCarId(updateRentalRequest.getOldCarId());
-		rentalUpdatedEvent.setNewCarId(updateRentalRequest.getNewCarId());
+		rentalUpdatedEvent.setNewCarId(rentalUpdated.getCarId());
 		rentalUpdatedEvent.setMessage("Rental Updated");
 		
 		this.rentalProducer.sendMessage(rentalUpdatedEvent);
 		
-		UpdateRentalResponse updateRentalResponse = this.modelMapperService.forResponse().map(rentalUpdated, UpdateRentalResponse.class);
-		updateRentalResponse.setCarId(rentalUpdated.getCarId());
+		UpdateRentalResponse updateRentalResponse = this.modelMapperService.forResponse().map(rental, UpdateRentalResponse.class);
 		
 		return updateRentalResponse;
 	}
-
+	
+	private void checkIfRentalById(String id) {
+		var result = rentalRepository.findById(id);
+		if (result == null) {
+			throw new BusinessException("RENTAL.NO.EXISTS");
+		}
+	}
+	
 }

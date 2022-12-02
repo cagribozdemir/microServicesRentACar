@@ -31,8 +31,7 @@ public class RentalProducer {
 		
 		Message<RentalCreatedEvent> message = MessageBuilder
 				.withPayload(rentalCreatedEvent)
-				.setHeader(KafkaHeaders.TOPIC, topic.name()).build();
-		
+				.setHeader(KafkaHeaders.TOPIC, topic.name()).build();		
 		kafkaTemplateCreated.send(message);
 	}
 	public void sendMessage(RentalUpdatedEvent rentalUpdatedEvent) {

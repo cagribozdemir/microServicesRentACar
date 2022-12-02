@@ -83,15 +83,15 @@ public class CarManager implements CarService {
 	}
 	
 	@Override
-	public void updateCarState(String carId, int state) {
-		Car car = carRepository.findById(carId).get();
+	public void updateCarState(String id, int state) {
+		Car car = carRepository.findById(id).get();
 		System.out.println(car.getDailyPrice());
 		car.setState(state);
 		carRepository.save(car);
 	}
 	
 	private void checkIfCarExistsById(String id) {
-		var result = carRepository.findById(id);
+		Car result = carRepository.findById(id).orElse(null);
 		if (result == null ) {
 			throw new BusinessException("CAR.NO.EXISTS");
 		}
@@ -109,6 +109,15 @@ public class CarManager implements CarService {
 		if (result == null) {
 			throw new BusinessException("MODEL.NO.EXİSTS");
 		}
+	}
+
+	@Override
+	public void checkIfCarAvailable(String id) {
+		Car result = carRepository.findById(id).orElse(null);
+		if (result.getState() != 1 || result == null) {
+			throw new BusinessException("CAR.NO.AVAILABLE");
+		}
+		
 	}
 
 

@@ -20,9 +20,10 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RentalsController {
 	private RentalService rentalService;
+	
 	@PostMapping
-	public CreateRentalResponse add(@Valid @RequestBody CreateRentalRequest createBrandRequest) {
-		return rentalService.add(createBrandRequest);
+	public CreateRentalResponse add(@Valid @RequestBody CreateRentalRequest createRentalRequest) {
+		return rentalService.add(createRentalRequest);
 	}
 	
 	@PutMapping
