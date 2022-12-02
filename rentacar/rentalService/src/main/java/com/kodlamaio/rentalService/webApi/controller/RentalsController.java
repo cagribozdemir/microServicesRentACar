@@ -2,6 +2,8 @@ package com.kodlamaio.rentalService.webApi.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,5 +31,10 @@ public class RentalsController {
 	@PutMapping
 	public UpdateRentalResponse update(@Valid @RequestBody UpdateRentalRequest updateRentalRequest) {
 		return rentalService.update(updateRentalRequest);
+	}
+	
+	@GetMapping("/totalpricebyid/{id}")
+	public double getTotalPrice(@PathVariable String id) {
+		return rentalService.getTotalPrice(id);
 	}
 }

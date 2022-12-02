@@ -8,4 +8,5 @@ import com.kodlamaio.rentalService.business.responses.update.UpdateRentalRespons
 public interface RentalService {
 	CreateRentalResponse add(CreateRentalRequest createRentalRequest);
 	UpdateRentalResponse update(UpdateRentalRequest updateRentalRequest);
+	double getTotalPrice(String id);
 }

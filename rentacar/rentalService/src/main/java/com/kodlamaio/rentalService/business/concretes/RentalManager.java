@@ -80,11 +80,18 @@ public class RentalManager implements RentalService {
 		return updateRentalResponse;
 	}
 	
+	@Override
+	public double getTotalPrice(String id) {
+		return rentalRepository.findById(id).get().getTotalPrice();
+	}
+	
 	private void checkIfRentalById(String id) {
 		var result = rentalRepository.findById(id);
 		if (result == null) {
 			throw new BusinessException("RENTAL.NO.EXISTS");
 		}
 	}
+
+	
 	
 }
