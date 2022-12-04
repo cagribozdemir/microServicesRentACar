@@ -19,7 +19,7 @@ public class PaymentConsumer {
 	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "create")
 	public void consume(PaymentCreatedEvent event) {
 		LOGGER.info(String.format("Order event received in stock service => %s", event.toString()));
-		//rentalService.update(event.getCarId(), 3);
+		rentalService.setConditionByPayment(event.getRentalId());
 		// save the order event into the database
 	}
 }

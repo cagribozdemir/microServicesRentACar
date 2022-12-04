@@ -16,8 +16,10 @@ import com.kodlamaio.inventoryServer.business.responses.create.CreateCarResponse
 import com.kodlamaio.inventoryServer.business.responses.get.GetAllCarsResponse;
 import com.kodlamaio.inventoryServer.business.responses.get.GetCarResponse;
 import com.kodlamaio.inventoryServer.business.responses.update.UpdateCarResponse;
+import com.kodlamaio.inventoryServer.dataAccess.CarDetailRepository;
 import com.kodlamaio.inventoryServer.dataAccess.CarRepository;
-import com.kodlamaio.inventoryServer.entities.Car;
+import com.kodlamaio.inventoryServer.entities.concretes.Car;
+import com.kodlamaio.inventoryServer.entities.dtos.CarDetailDto;
 
 import lombok.AllArgsConstructor;
 
@@ -25,6 +27,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class CarManager implements CarService {
 	private CarRepository carRepository;
+	private CarDetailRepository carDetailRepository;
 	private ModelMapperService modelMapperService;
 	private ModelService modelService;
 	
@@ -43,12 +46,17 @@ public class CarManager implements CarService {
 	public CreateCarResponse add(CreateCarRequest createCarRequest) {
 		checkIfModelExistsByModelId(createCarRequest.getModelId());
 		checkIfCarExistsByPlate(createCarRequest.getPlate());
+		
 		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
 		car.setId(UUID.randomUUID().toString());
 		car.setState(1);
 		this.carRepository.save(car);
 		
 		CreateCarResponse createCarResponse = this.modelMapperService.forResponse().map(car, CreateCarResponse.class);
+		
+		CarDetailDto carDetailDto = this.modelMapperService.forRequest().map(createCarResponse, CarDetailDto.class);
+		this.carDetailRepository.save(carDetailDto);
+		
 		return createCarResponse;
 	}
 

@@ -11,5 +11,5 @@ import feign.Headers;
 public interface RentalApi {
 	@RequestMapping(method= RequestMethod.GET ,value = "totalpricebyid/{rentalId}")
 	@Headers(value="Content-Type: application/json")
-	double getTotalPrice(@PathVariable String rentalId);
+	double getTotalPrice(@PathVariable String rentalId); 
 }

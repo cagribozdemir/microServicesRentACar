@@ -9,4 +9,5 @@ public interface RentalService {
 	CreateRentalResponse add(CreateRentalRequest createRentalRequest);
 	UpdateRentalResponse update(UpdateRentalRequest updateRentalRequest);
 	double getTotalPrice(String id);
+	void setConditionByPayment(String id);
 }

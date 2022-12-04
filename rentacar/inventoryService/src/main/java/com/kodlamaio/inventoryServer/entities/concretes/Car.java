@@ -1,4 +1,4 @@
-package com.kodlamaio.inventoryServer.entities;
+package com.kodlamaio.inventoryServer.entities.concretes;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

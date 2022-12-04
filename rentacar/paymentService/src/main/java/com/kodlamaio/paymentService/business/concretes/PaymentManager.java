@@ -12,6 +12,7 @@ import com.kodlamaio.paymentService.business.requests.CreatePaymentRequest;
 import com.kodlamaio.paymentService.business.responses.CreatePaymentResponse;
 import com.kodlamaio.paymentService.dataAccess.PaymentRepository;
 import com.kodlamaio.paymentService.entities.Payment;
+import com.kodlamaio.paymentService.kafka.PaymentProducer;
 import com.kodlamaio.paymentService.webApi.RentalApi;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +22,7 @@ import lombok.AllArgsConstructor;
 public class PaymentManager implements PaymentService{
 	private PaymentRepository paymentRepository;
 	private ModelMapperService modelMapperService;
+	private PaymentProducer paymentProducer;
 	private RentalApi rentalApi;
 
 	@Override
@@ -34,7 +36,9 @@ public class PaymentManager implements PaymentService{
 		
 		PaymentCreatedEvent paymentCreatedEvent = new PaymentCreatedEvent();
 		paymentCreatedEvent.setRentalId(createdPayment.getRentalId());
-		paymentCreatedEvent.setMessage("");
+		paymentCreatedEvent.setMessage("Payment Created");
+		
+		this.paymentProducer.sendMessage(paymentCreatedEvent);
 		
 		CreatePaymentResponse createPaymentResponse = modelMapperService.forResponse().map(payment, CreatePaymentResponse.class);
 		

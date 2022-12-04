@@ -17,7 +17,7 @@ import com.kodlamaio.inventoryServer.business.responses.get.GetAllModelsResponse
 import com.kodlamaio.inventoryServer.business.responses.get.GetModelResponse;
 import com.kodlamaio.inventoryServer.business.responses.update.UpdateModelResponse;
 import com.kodlamaio.inventoryServer.dataAccess.ModelRepository;
-import com.kodlamaio.inventoryServer.entities.Model;
+import com.kodlamaio.inventoryServer.entities.concretes.Model;
 
 import lombok.AllArgsConstructor;
 

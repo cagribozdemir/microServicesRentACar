@@ -85,13 +85,21 @@ public class RentalManager implements RentalService {
 		return rentalRepository.findById(id).get().getTotalPrice();
 	}
 	
+	@Override
+	public void setConditionByPayment(String id) {
+		Rental rental = this.rentalRepository.findById(id).get();
+		if (rental.getCondition()==1) {
+			rental.setCondition(2);	
+		}
+		rentalRepository.save(rental);
+		
+	}
+	
 	private void checkIfRentalById(String id) {
 		var result = rentalRepository.findById(id);
 		if (result == null) {
 			throw new BusinessException("RENTAL.NO.EXISTS");
 		}
 	}
-
-	
 	
 }

@@ -1,10 +1,12 @@
-package com.kodlamaio.inventoryServer.entities;
+package com.kodlamaio.inventoryServer.entities.concretes;
 
 import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -16,8 +18,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "brands")
-public class Brand {
+@Table(name = "models")
+public class Model {
 	@Id
 	@Column(name = "id")
 	private String id;
@@ -25,7 +27,11 @@ public class Brand {
 	@Column(name = "name")
 	private String name;
 	
-	@OneToMany(mappedBy = "brand")
-	private List<Model> models; 
+	@ManyToOne
+	@JoinColumn(name="brand_id")
+	private Brand brand;
+	
+	@OneToMany(mappedBy = "model")
+	List<Car> cars;
 	
 }

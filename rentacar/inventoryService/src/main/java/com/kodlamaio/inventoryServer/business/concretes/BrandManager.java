@@ -16,7 +16,7 @@ import com.kodlamaio.inventoryServer.business.responses.get.GetAllBrandsResponse
 import com.kodlamaio.inventoryServer.business.responses.get.GetBrandResponse;
 import com.kodlamaio.inventoryServer.business.responses.update.UpdateBrandResponse;
 import com.kodlamaio.inventoryServer.dataAccess.BrandRepository;
-import com.kodlamaio.inventoryServer.entities.Brand;
+import com.kodlamaio.inventoryServer.entities.concretes.Brand;
 
 import lombok.AllArgsConstructor;
 
