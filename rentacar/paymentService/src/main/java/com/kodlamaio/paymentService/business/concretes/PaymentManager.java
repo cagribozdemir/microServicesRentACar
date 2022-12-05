@@ -45,10 +45,23 @@ public class PaymentManager implements PaymentService{
 		return createPaymentResponse;
 	}
 	
+	@Override
+	public void updateStatus(String id, int status) {
+		Payment payment = this.paymentRepository.findById(id).get();
+		payment.setStatus(status);
+		paymentRepository.save(payment);
+		
+	}
+	
+	@Override
+	public void delete(String id) {
+		paymentRepository.deleteById(id);
+		
+	}
+	
 	private void checkBalanceEnough(double balance, String rentalId) {
 		if (balance<rentalApi.getTotalPrice(rentalId)) {
 			throw new BusinessException("BALANCE.IS.NOT.ENOUGH");
 		}
 	}
-	
 }

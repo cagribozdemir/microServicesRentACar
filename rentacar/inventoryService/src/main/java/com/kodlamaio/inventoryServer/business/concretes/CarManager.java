@@ -30,7 +30,7 @@ public class CarManager implements CarService {
 	private CarDetailRepository carDetailRepository;
 	private ModelMapperService modelMapperService;
 	private ModelService modelService;
-	
+
 	@Override
 	public List<GetAllCarsResponse> getAll() {
 		List<Car> cars = this.carRepository.findAll();
@@ -46,17 +46,20 @@ public class CarManager implements CarService {
 	public CreateCarResponse add(CreateCarRequest createCarRequest) {
 		checkIfModelExistsByModelId(createCarRequest.getModelId());
 		checkIfCarExistsByPlate(createCarRequest.getPlate());
-		
+
 		Car car = this.modelMapperService.forRequest().map(createCarRequest, Car.class);
 		car.setId(UUID.randomUUID().toString());
 		car.setState(1);
-		this.carRepository.save(car);
-		
-		CreateCarResponse createCarResponse = this.modelMapperService.forResponse().map(car, CreateCarResponse.class);
-		
-		CarDetailDto carDetailDto = this.modelMapperService.forRequest().map(createCarResponse, CarDetailDto.class);
+		Car createdCar = this.carRepository.save(car);
+
+		CreateCarResponse createCarResponse = this.modelMapperService.forResponse().map(createdCar,
+				CreateCarResponse.class);
+
+		CarDetailDto carDetailDto = this.modelMapperService.forRequest().map(createdCar, CarDetailDto.class);
+		carDetailDto.setBrandName(createdCar.getModel().getBrand().getName());
+		carDetailDto.setBrandId(createdCar.getModel().getBrand().getId());
 		this.carDetailRepository.save(carDetailDto);
-		
+
 		return createCarResponse;
 	}
 
@@ -64,7 +67,7 @@ public class CarManager implements CarService {
 	public void delete(String id) {
 		checkIfCarExistsById(id);
 		carRepository.deleteById(id);
-		
+		carDetailRepository.deleteById(id);
 	}
 
 	@Override
@@ -72,13 +75,20 @@ public class CarManager implements CarService {
 		checkIfModelExistsByModelId(updateCarRequest.getModelId());
 		checkIfCarExistsById(updateCarRequest.getId());
 		checkIfCarExistsByPlate(updateCarRequest.getPlate());
+
 		Car car = this.modelMapperService.forRequest().map(updateCarRequest, Car.class);
 		car.setState(1);
 
-		this.carRepository.save(car);
+		Car updatedCar = this.carRepository.save(car);
 
-		UpdateCarResponse updateCarResponse = this.modelMapperService.forResponse().map(car,
+		UpdateCarResponse updateCarResponse = this.modelMapperService.forResponse().map(updatedCar,
 				UpdateCarResponse.class);
+
+		CarDetailDto carDetailDto = this.modelMapperService.forRequest().map(updatedCar, CarDetailDto.class);
+		carDetailDto.setBrandName(updatedCar.getModel().getBrand().getName());
+		carDetailDto.setBrandId(updatedCar.getModel().getBrand().getId());
+		this.carDetailRepository.save(carDetailDto);
+
 		return updateCarResponse;
 	}
 
@@ -89,34 +99,16 @@ public class CarManager implements CarService {
 		GetCarResponse getCarResponse = this.modelMapperService.forResponse().map(car, GetCarResponse.class);
 		return getCarResponse;
 	}
-	
+
 	@Override
 	public void updateCarState(String id, int state) {
 		Car car = carRepository.findById(id).get();
-		System.out.println(car.getDailyPrice());
 		car.setState(state);
-		carRepository.save(car);
-	}
-	
-	private void checkIfCarExistsById(String id) {
-		Car result = carRepository.findById(id).orElse(null);
-		if (result == null ) {
-			throw new BusinessException("CAR.NO.EXISTS");
-		}
-	}
-	
-	private void checkIfCarExistsByPlate(String plate) {
-		var result = carRepository.findByPlate(plate);
-		if (result != null) {
-			throw new BusinessException("CAR.EXISTS");
-		}
-	}
-	
-	private void checkIfModelExistsByModelId(String modelId) {
-		var result = modelService.getById(modelId);
-		if (result == null) {
-			throw new BusinessException("MODEL.NO.EXİSTS");
-		}
+		Car updatedCar = carRepository.save(car);
+
+		CarDetailDto carDetailDto = this.modelMapperService.forRequest().map(updatedCar, CarDetailDto.class);
+		this.carDetailRepository.save(carDetailDto);
+
 	}
 
 	@Override
@@ -125,8 +117,27 @@ public class CarManager implements CarService {
 		if (result.getState() != 1 || result == null) {
 			throw new BusinessException("CAR.NO.AVAILABLE");
 		}
-		
+
 	}
 
+	private void checkIfCarExistsById(String id) {
+		Car result = carRepository.findById(id).orElse(null);
+		if (result == null) {
+			throw new BusinessException("CAR.NO.EXISTS");
+		}
+	}
 
+	private void checkIfCarExistsByPlate(String plate) {
+		var result = carRepository.findByPlate(plate);
+		if (result != null) {
+			throw new BusinessException("CAR.EXISTS");
+		}
+	}
+
+	private void checkIfModelExistsByModelId(String modelId) {
+		var result = modelService.getById(modelId);
+		if (result == null) {
+			throw new BusinessException("MODEL.NO.EXİSTS");
+		}
+	}
 }
