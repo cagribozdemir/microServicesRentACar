@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.kodlamaio.common.events.InvoiceCreatedEvent;
+import com.kodlamaio.common.events.Invoice.InvoiceCreatedEvent;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaio.invoiceService.business.abstracts.InvoiceService;
 import com.kodlamaio.invoiceService.business.requests.CreateInvoiceRequest;

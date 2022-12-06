@@ -9,7 +9,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 
-import com.kodlamaio.common.events.PaymentCreatedEvent;
+import com.kodlamaio.common.events.payment.PaymentCreatedEvent;
 
 import lombok.AllArgsConstructor;
 

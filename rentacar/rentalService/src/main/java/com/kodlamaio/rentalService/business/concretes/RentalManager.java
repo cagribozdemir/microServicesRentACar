@@ -5,8 +5,9 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.kodlamaio.common.events.RentalCreatedEvent;
-import com.kodlamaio.common.events.RentalUpdatedEvent;
+import com.kodlamaio.common.events.rental.RentalCreatedEvent;
+import com.kodlamaio.common.events.rental.RentalUpdatedEvent;
+import com.kodlamaio.common.requests.CreatePaymentRequest;
 import com.kodlamaio.common.utilities.exceptions.BusinessException;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaio.rentalService.business.abstracts.RentalService;
@@ -18,6 +19,7 @@ import com.kodlamaio.rentalService.dataAccess.RentalRepository;
 import com.kodlamaio.rentalService.entities.Rental;
 import com.kodlamaio.rentalService.kafka.RentalProducer;
 import com.kodlamaio.rentalService.webApi.controller.CarApi;
+import com.kodlamaio.rentalService.webApi.controller.PaymentApi;
 
 import lombok.AllArgsConstructor;
 
@@ -28,18 +30,22 @@ public class RentalManager implements RentalService {
 	private ModelMapperService modelMapperService;
 	private RentalProducer rentalProducer;
 	private CarApi carApi;
+	private PaymentApi paymentApi;
 
 	@Override
-	public CreateRentalResponse add(CreateRentalRequest createRentalRequest) {
+	public CreateRentalResponse add(CreateRentalRequest createRentalRequest, CreatePaymentRequest createPaymentRequest) {
 		carApi.checkIfCarAvailable(createRentalRequest.getCarId());
+		
 		Rental rental = this.modelMapperService.forRequest().map(createRentalRequest, Rental.class);
 		rental.setId(UUID.randomUUID().toString());
 		rental.setDateStarted(LocalDateTime.now());
 		double totalPrice = createRentalRequest.getDailyPrice() * createRentalRequest.getRentedForDays();
 		rental.setTotalPrice(totalPrice);
 		
+		paymentApi.add(createPaymentRequest);
+		
 		Rental rentalCreated = this.rentalRepository.save(rental);
-
+		
 		RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
 		rentalCreatedEvent.setCarId(rentalCreated.getCarId());
 		rentalCreatedEvent.setMessage("Rental Created");

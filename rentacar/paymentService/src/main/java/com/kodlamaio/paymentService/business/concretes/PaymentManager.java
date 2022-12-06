@@ -4,12 +4,11 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.kodlamaio.common.events.PaymentCreatedEvent;
+import com.kodlamaio.common.events.payment.PaymentCreatedEvent;
+import com.kodlamaio.common.requests.CreatePaymentRequest;
 import com.kodlamaio.common.utilities.exceptions.BusinessException;
 import com.kodlamaio.common.utilities.mapping.ModelMapperService;
 import com.kodlamaio.paymentService.business.abstracts.PaymentService;
-import com.kodlamaio.paymentService.business.requests.CreatePaymentRequest;
-import com.kodlamaio.paymentService.business.responses.CreatePaymentResponse;
 import com.kodlamaio.paymentService.dataAccess.PaymentRepository;
 import com.kodlamaio.paymentService.entities.Payment;
 import com.kodlamaio.paymentService.kafka.PaymentProducer;
@@ -26,7 +25,7 @@ public class PaymentManager implements PaymentService{
 	private RentalApi rentalApi;
 
 	@Override
-	public CreatePaymentResponse add(CreatePaymentRequest createPaymentRequest) {
+	public void add(CreatePaymentRequest createPaymentRequest) {
 		checkBalanceEnough(createPaymentRequest.getBalance(),createPaymentRequest.getRentalId());
 		
 		Payment payment = modelMapperService.forRequest().map(createPaymentRequest, Payment.class);
@@ -39,10 +38,6 @@ public class PaymentManager implements PaymentService{
 		paymentCreatedEvent.setMessage("Payment Created");
 		
 		this.paymentProducer.sendMessage(paymentCreatedEvent);
-		
-		CreatePaymentResponse createPaymentResponse = modelMapperService.forResponse().map(payment, CreatePaymentResponse.class);
-		
-		return createPaymentResponse;
 	}
 	
 	@Override
@@ -64,4 +59,8 @@ public class PaymentManager implements PaymentService{
 			throw new BusinessException("BALANCE.IS.NOT.ENOUGH");
 		}
 	}
+
+	
+
+	
 }

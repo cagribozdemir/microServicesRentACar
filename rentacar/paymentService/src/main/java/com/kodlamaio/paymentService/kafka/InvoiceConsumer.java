@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
-import com.kodlamaio.common.events.InvoiceCreatedEvent;
+import com.kodlamaio.common.events.Invoice.InvoiceCreatedEvent;
 import com.kodlamaio.paymentService.business.abstracts.PaymentService;
 
 import lombok.AllArgsConstructor;
