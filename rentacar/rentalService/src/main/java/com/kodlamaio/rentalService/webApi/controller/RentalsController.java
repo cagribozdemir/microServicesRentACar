@@ -25,7 +25,7 @@ public class RentalsController {
 	private RentalService rentalService;
 	
 	@PostMapping
-	public CreateRentalResponse add(@Valid @RequestBody CreateRentalRequest createRentalRequest,CreatePaymentRequest createPaymentRequest) {
+	public CreateRentalResponse add(@Valid @RequestBody CreateRentalRequest createRentalRequest, @RequestBody CreatePaymentRequest createPaymentRequest) {
 		return rentalService.add(createRentalRequest,createPaymentRequest);
 	}
 	

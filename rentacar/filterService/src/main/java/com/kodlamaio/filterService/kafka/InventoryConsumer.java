@@ -27,31 +27,31 @@ public class InventoryConsumer {
 		
 	}
 	
-//	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "updatecar")
-//	public void consume(CarUpdatedEvent event) {
-//		LOGGER.info(String.format("Car event received in filter service => %s", event.toString()));
-//		filterService.updateCar(event);
-//		
-//	}
-//	
-//	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "deletecar")
-//	public void consume(CarDeletedEvent event) {
-//		LOGGER.info(String.format("Car event received in filter service => %s", event.toString()));
-//		filterService.deleteCar(event);
-//		
-//	}
-//	
-//	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "updatebrand")
-//	public void consume(BrandUpdatedEvent event) {
-//		LOGGER.info(String.format("Brand event received in filter service => %s", event.toString()));
-//		filterService.updateBrand(event);
-//		
-//	}
-//	
-//	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "updatemodel")
-//	public void consume(ModelUpdatedEvent event) {
-//		LOGGER.info(String.format("Model event received in filter service => %s", event.toString()));
-//		filterService.updateModel(event);
-//		
-//	}
+	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "updatecar")
+	public void consume(CarUpdatedEvent event) {
+		LOGGER.info(String.format("Car event received in filter service => %s", event.toString()));
+		filterService.updateCar(event);
+		
+	}
+	
+	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "deletecar")
+	public void consume(CarDeletedEvent event) {
+		LOGGER.info(String.format("Car event received in filter service => %s", event.toString()));
+		filterService.deleteCar(event);
+		
+	}
+	
+	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "updatebrand")
+	public void consume(BrandUpdatedEvent event) {
+		LOGGER.info(String.format("Brand event received in filter service => %s", event.toString()));
+		filterService.updateBrand(event);
+		
+	}
+	
+	@KafkaListener(topics = "${spring.kafka.topic.name}", groupId = "updatemodel")
+	public void consume(ModelUpdatedEvent event) {
+		LOGGER.info(String.format("Model event received in filter service => %s", event.toString()));
+		filterService.updateModel(event);
+		
+	}
 }

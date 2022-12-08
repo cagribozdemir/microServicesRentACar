@@ -1,6 +1,0 @@
-package com.kodlamaio.common.utilities.mapping;
-
-public interface ModelMapperService {
-	ModelMapper forResponse();
-	ModelMapper forRequest();
-}

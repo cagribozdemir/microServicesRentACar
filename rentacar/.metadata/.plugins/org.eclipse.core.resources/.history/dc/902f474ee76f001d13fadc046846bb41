@@ -1,5 +1,0 @@
-package com.kodlamaio.inventoryServer.business.requests.update;
-
-public class UpdateModelRequest {
-
-}

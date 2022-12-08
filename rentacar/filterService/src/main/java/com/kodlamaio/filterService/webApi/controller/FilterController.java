@@ -25,17 +25,17 @@ public class FilterController {
 	}
 	
 	@GetMapping("{brandName}")
-	public List<GetAllFiltersResponse> getByBrandName(String brandName) {
+	public List<GetAllFiltersResponse> getByBrandName(@PathVariable String brandName) {
 		return filterService.getByBrandName(brandName);
 	}
 	
 	@GetMapping("{modelName}")
-	public List<GetAllFiltersResponse> getByModelName(String modelName) {
+	public List<GetAllFiltersResponse> getByModelName(@PathVariable String modelName) {
 		return filterService.getByModelName(modelName);
 	}
 	
 	@GetMapping("{plate}")
-	public GetFilterResponse getByPlate(String plate) {
+	public GetFilterResponse getByPlate(@PathVariable String plate) {
 		return filterService.getByPlate(plate);
 	}
 	

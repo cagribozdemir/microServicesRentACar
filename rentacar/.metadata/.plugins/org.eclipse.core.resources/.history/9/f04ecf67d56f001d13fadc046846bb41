@@ -1,5 +1,0 @@
-package com.kodlamaio.inventoryServer.business.abstracts;
-
-public interface BrandService {
-
-}

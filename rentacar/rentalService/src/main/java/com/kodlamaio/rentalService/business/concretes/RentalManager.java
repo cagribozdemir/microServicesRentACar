@@ -31,7 +31,7 @@ public class RentalManager implements RentalService {
 	private RentalProducer rentalProducer;
 	private CarApi carApi;
 	private PaymentApi paymentApi;
-
+ 
 	@Override
 	public CreateRentalResponse add(CreateRentalRequest createRentalRequest, CreatePaymentRequest createPaymentRequest) {
 		carApi.checkIfCarAvailable(createRentalRequest.getCarId());
@@ -46,13 +46,13 @@ public class RentalManager implements RentalService {
 		
 		Rental rentalCreated = this.rentalRepository.save(rental);
 		
-		RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
-		rentalCreatedEvent.setCarId(rentalCreated.getCarId());
-		rentalCreatedEvent.setMessage("Rental Created");
+//		RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
+//		rentalCreatedEvent.setCarId(rentalCreated.getCarId());
+//		rentalCreatedEvent.setMessage("Rental Created");
+//
+//		this.rentalProducer.sendMessage(rentalCreatedEvent);
 
-		this.rentalProducer.sendMessage(rentalCreatedEvent);
-
-		CreateRentalResponse createRentalResponse = this.modelMapperService.forResponse().map(rental,
+		CreateRentalResponse createRentalResponse = this.modelMapperService.forResponse().map(rentalCreated,
 				CreateRentalResponse.class);
 		return createRentalResponse;
 	}
