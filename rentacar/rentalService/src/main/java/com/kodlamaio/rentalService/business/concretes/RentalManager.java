@@ -28,9 +28,9 @@ import lombok.AllArgsConstructor;
 public class RentalManager implements RentalService {
 	private RentalRepository rentalRepository;
 	private ModelMapperService modelMapperService;
-	private RentalProducer rentalProducer;
 	private CarApi carApi;
 	private PaymentApi paymentApi;
+	private RentalProducer rentalProducer;
  
 	@Override
 	public CreateRentalResponse add(CreateRentalRequest createRentalRequest, CreatePaymentRequest createPaymentRequest) {
@@ -41,17 +41,18 @@ public class RentalManager implements RentalService {
 		rental.setDateStarted(LocalDateTime.now());
 		double totalPrice = createRentalRequest.getDailyPrice() * createRentalRequest.getRentedForDays();
 		rental.setTotalPrice(totalPrice);
+		checkBalanceEnough(createPaymentRequest.getBalance(),totalPrice);
 		
 		paymentApi.add(createPaymentRequest);
 		
 		Rental rentalCreated = this.rentalRepository.save(rental);
 		
-//		RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
-//		rentalCreatedEvent.setCarId(rentalCreated.getCarId());
-//		rentalCreatedEvent.setMessage("Rental Created");
-//
-//		this.rentalProducer.sendMessage(rentalCreatedEvent);
+		RentalCreatedEvent rentalCreatedEvent = new RentalCreatedEvent();
+		rentalCreatedEvent.setCarId(rentalCreated.getCarId());
+		rentalCreatedEvent.setMessage("Rental Created");
 
+		this.rentalProducer.sendMessage(rentalCreatedEvent);
+		
 		CreateRentalResponse createRentalResponse = this.modelMapperService.forResponse().map(rentalCreated,
 				CreateRentalResponse.class);
 		return createRentalResponse;
@@ -76,12 +77,8 @@ public class RentalManager implements RentalService {
 
 		Rental rentalUpdated = this.rentalRepository.save(rental);
 		
-		rentalUpdatedEvent.setNewCarId(rentalUpdated.getCarId());
-		rentalUpdatedEvent.setMessage("Rental Updated");
 		
-		this.rentalProducer.sendMessage(rentalUpdatedEvent);
-		
-		UpdateRentalResponse updateRentalResponse = this.modelMapperService.forResponse().map(rental, UpdateRentalResponse.class);
+		UpdateRentalResponse updateRentalResponse = this.modelMapperService.forResponse().map(rentalUpdated, UpdateRentalResponse.class);
 		
 		return updateRentalResponse;
 	}
@@ -108,4 +105,9 @@ public class RentalManager implements RentalService {
 		}
 	}
 	
+	private void checkBalanceEnough(double balance, double totalPrice) {
+		if (balance<totalPrice) {
+			throw new BusinessException("BALANCE.IS.NOT.ENOUGH");
+		}
+	}
 }

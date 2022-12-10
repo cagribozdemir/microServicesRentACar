@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="com.kodlamaio.paymentService.business.abstracts.PaymentService"/>
-    <fullyQualifiedTypeName name="com.kodlamaio.common.events.InvoiceCreatedEvent"/>
-    <fullyQualifiedTypeName name="org.springframework.cloud.config.server.EnableConfigServer"/>
     <fullyQualifiedTypeName name="org.springframework.cloud.client.discovery.EnableDiscoveryClient"/>
     <fullyQualifiedTypeName name="org.springframework.data.mongodb.repository.MongoRepository"/>
     <fullyQualifiedTypeName name="com.kodlamaio.filterService.entities.CarDetail"/>
@@ -21,7 +18,6 @@
     <fullyQualifiedTypeName name="com.kodlamaio.filterService.dataAccess.FilterRepository"/>
     <fullyQualifiedTypeName name="org.springframework.data.mongodb.core.mapping.Field"/>
     <fullyQualifiedTypeName name="org.springframework.context.annotation.Configuration"/>
-    <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
     <fullyQualifiedTypeName name="ch.qos.logback.core.filter.Filter"/>
     <fullyQualifiedTypeName name="com.kodlamaio.common.utilities.mapping.ModelMapperService"/>
     <fullyQualifiedTypeName name="com.kodlamaio.common.events.filter.FilterCreatedEvent"/>
@@ -31,10 +27,8 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMethod"/>
     <fullyQualifiedTypeName name="feign.Headers"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMapping"/>
-    <fullyQualifiedTypeName name="com.kodlamaio.rentalService.business.requests.create.CreateRentalRequest"/>
     <fullyQualifiedTypeName name="javax.validation.Valid"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestBody"/>
-    <fullyQualifiedTypeName name="com.kodlamaio.common.requests.CreatePaymentRequest"/>
     <fullyQualifiedTypeName name="org.springframework.kafka.core.KafkaTemplate"/>
     <fullyQualifiedTypeName name="com.kodlamaio.inventoryServer.kafka.BrandProducer"/>
     <fullyQualifiedTypeName name="com.kodlamaio.common.events.inventory.brand.BrandCreatedEvent"/>
@@ -49,9 +43,6 @@
     <fullyQualifiedTypeName name="com.kodlamaio.common.events.inventory.model.ModelUpdatedEvent"/>
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.stream.Collectors"/>
-    <fullyQualifiedTypeName name="lombok.Data"/>
-    <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
-    <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
     <fullyQualifiedTypeName name="com.kodlamaio.filterService.entities.Filter"/>
     <fullyQualifiedTypeName name="com.kodlamaio.filterService.business.responses.get.GetFilterResponse"/>
     <fullyQualifiedTypeName name="com.kodlamaio.filterService.business.responses.get.GetAllFiltersResponse"/>
@@ -60,4 +51,13 @@
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PathVariable"/>
     <fullyQualifiedTypeName name="com.kodlamaio.inventoryServer.kafka.InventoryProducer"/>
+    <fullyQualifiedTypeName name="lombok.Data"/>
+    <fullyQualifiedTypeName name="lombok.AllArgsConstructor"/>
+    <fullyQualifiedTypeName name="lombok.NoArgsConstructor"/>
+    <fullyQualifiedTypeName name="com.kodlamaio.common.events.rental.RentalCreatedEvent"/>
+    <fullyQualifiedTypeName name="com.kodlamaio.rentalService.kafka.RentalProducer"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Service"/>
+    <fullyQualifiedTypeName name="com.kodlamaio.paymentService.business.adapters.PosCheckService"/>
+    <fullyQualifiedTypeName name="com.kodlamaio.common.requests.CreatePaymentRequest"/>
+    <fullyQualifiedTypeName name="com.kodlamaio.rentalService.business.requests.create.CreateRentalRequest"/>
 </qualifiedTypeNameHistroy>

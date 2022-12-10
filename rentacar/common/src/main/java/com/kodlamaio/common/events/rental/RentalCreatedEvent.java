@@ -10,4 +10,5 @@ import lombok.NoArgsConstructor;
 public class RentalCreatedEvent {
 	private String message;
 	private String carId;
+
 }

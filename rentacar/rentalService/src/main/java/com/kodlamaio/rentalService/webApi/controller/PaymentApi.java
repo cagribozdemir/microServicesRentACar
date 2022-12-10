@@ -15,5 +15,5 @@ import feign.Headers;
 public interface PaymentApi {
 	@RequestMapping(method= RequestMethod.POST)
 	@Headers(value="Content-Type: application/json")
-	void add(@Valid @RequestBody CreatePaymentRequest createPaymentRequest);
+	public void add(@Valid @RequestBody CreatePaymentRequest createPaymentRequest);
 }

@@ -9,9 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePaymentRequest {
-	private String rentalId;
-	
+public class CreatePaymentRequest {	
 	private String cardNo;
 	
 	private String cardHolder;

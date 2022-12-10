@@ -21,9 +21,6 @@ public class Payment {
 	@Column(name = "id")
 	private String id;
 	
-	@Column(name = "rentalId")
-	private String rentalId;
-	
 	@Column(name = "cardNo")	
 	private String cardNo;
 	

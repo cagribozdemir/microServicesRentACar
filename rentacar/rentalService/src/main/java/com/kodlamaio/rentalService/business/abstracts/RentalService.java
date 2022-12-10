@@ -7,7 +7,7 @@ import com.kodlamaio.rentalService.business.responses.create.CreateRentalRespons
 import com.kodlamaio.rentalService.business.responses.update.UpdateRentalResponse;
 
 public interface RentalService {
-	CreateRentalResponse add(CreateRentalRequest createRentalRequest,CreatePaymentRequest createPaymentRequest);
+	CreateRentalResponse add(CreateRentalRequest createRentalRequest, CreatePaymentRequest createPaymentRequest);
 	UpdateRentalResponse update(UpdateRentalRequest updateRentalRequest);
 	double getTotalPrice(String id);
 	void setConditionByPayment(String id);
